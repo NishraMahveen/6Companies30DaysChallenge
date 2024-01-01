@@ -1,0 +1,12 @@
+class Solution:
+    def minimizeSet(self, d1: int, d2: int, u1: int, u2: int) -> int:
+        def count(x,d):
+            return x // d * (d - 1) + x % d
+
+        def f(x):
+            c1 = count(x, d1)
+            c2 = count(x, d2)
+            c = count(x, lcm(d1, d2))
+            return c1 >= u1 and c2 >= u2 and c >= u1 + u2
+
+        return bisect_left(range(10**10), True, key=f)
