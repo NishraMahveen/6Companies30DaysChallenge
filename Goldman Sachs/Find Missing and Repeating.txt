@@ -1,0 +1,19 @@
+class Solution:
+    def findTwoElement( self,arr, n):
+        rep_num=0
+        miss_num=0
+        
+        for i in range(n):
+            index=abs(arr[i])-1
+            
+            if arr[index]>0:
+                arr[index]=-arr[index]
+            else:
+                rep_num=abs(arr[i])
+                
+        for i in range(n):
+            if arr[i] > 0:
+                    miss_num=i+1
+        
+        return [rep_num, miss_num]       
+        
