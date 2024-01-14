@@ -1,0 +1,29 @@
+class Solution:
+    def printMinNumberForPattern(ob,S):
+        res = ''
+        st = []
+        num = 1
+        for it in S:
+            if it == 'D':
+                st.append(num)
+                num += 1
+            else:
+                st.append(num)
+                num += 1
+                while st:
+                    res += str(st.pop())
+        st.append(num)
+        while st:
+            res += str(st.pop())
+        return res
+
+# Driver Code Starts
+if __name__ == '__main__': 
+    t = int (input ())
+    for _ in range (t):
+        
+        S=str(input())
+
+        ob = Solution()
+        print(ob.printMinNumberForPattern(S))
+# Driver Code Ends
