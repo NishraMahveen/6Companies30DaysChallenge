@@ -1,0 +1,20 @@
+class Solution:
+    def incremovableSubarrayCount(self, nums: List[int]) -> int:
+        ans = 0
+        n = len(nums)
+
+        for i in range(n):
+            for j in range(i, n):
+                pre = 0
+                c= 1
+                for k in range(n):
+                    if i <= k <= j:
+                        continue
+                    if pre >= nums[k]:
+                        c = 0
+                        break
+                    pre = nums[k]
+                if c:
+                    ans += 1
+
+        return ans
