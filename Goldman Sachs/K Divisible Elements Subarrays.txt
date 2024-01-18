@@ -1,0 +1,19 @@
+class Solution:
+    def countDistinct(self, nums: List[int], k: int, p: int) -> int:
+        n = len(nums)
+        m = defaultdict(int)
+
+        for i in range(n):
+            temp = []
+            count = 0
+            for j in range(i, n):
+                if nums[j] % p == 0:
+                    count += 1
+                if count > k:
+                    break
+                temp.append(nums[j])
+                m[tuple(temp)] += 1
+
+        ans = len(m)
+        return ans
+        
