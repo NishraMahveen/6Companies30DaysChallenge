@@ -1,0 +1,4 @@
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        res = [list(combi) for combi in combinations(range(1, 10), k) if sum(combi) == n]
+        return res
