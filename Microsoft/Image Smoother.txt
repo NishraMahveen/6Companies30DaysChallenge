@@ -1,0 +1,21 @@
+class Solution:
+    def imageSmoother(self, img: List[List[int]]) -> List[List[int]]:
+        m, n = len(img), len(img[0])
+        ansImg = [[0] * n for _ in range(m)]
+
+        drow = [0, 0, 1, 1, 1, -1, -1, -1]
+        dcol = [-1, 1, -1, 0, 1, 0, -1, 1]
+
+        for i in range(m):
+            for j in range(n):
+                avg = img[i][j]
+                count = 1
+                for a in range(8):
+                    r, c = drow[a] + i, dcol[a] + j
+                    if 0 <= r < m and 0 <= c < n:
+                        avg += img[r][c]
+                        count += 1
+                ansImg[i][j] = avg // count
+
+        return ansImg
+        
