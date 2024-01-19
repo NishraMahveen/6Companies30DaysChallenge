@@ -1,0 +1,34 @@
+class Solution:
+    def highestPeak(self, isWater: List[List[int]]) -> List[List[int]]:
+        m, n = len(isWater), len(isWater[0])
+        max_height = float('inf')  
+
+        ans = [[max_height if isWater[i][j] == 0 else 0 for j in range(n)] for i in range(m)]
+        
+        # Iterate until no further updates are possible
+        while True:
+            updated = False
+            
+            for i in range(m):
+                for j in range(n):
+                    if isWater[i][j] == 1:
+                        continue
+
+                    curr_height = ans[i][j]
+
+                    for dr, dc in [(0, 1), (1, 0), (-1, 0), (0, -1)]:
+                        nr, nc = i + dr, j + dc
+
+                        if 0 <= nr < m and 0 <= nc < n:
+                            new_height = ans[nr][nc] + 1
+
+                            if new_height < curr_height:
+                                ans[i][j] = new_height
+                                updated = True
+
+            if not updated:
+                break
+
+        return ans
+        
+        
