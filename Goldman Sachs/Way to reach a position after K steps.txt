@@ -1,0 +1,13 @@
+class Solution:
+    def numberOfWays(self, startPos: int, endPos: int, k: int) -> int:
+        MOD = 10**9 + 7
+        dp = [[0] * (k + 1) for _ in range(k + 1)]
+        dp[0][0] = 1
+
+        for i in range(1, k + 1):
+            dp[i][0] = 1
+            for j in range(1, i + 1):
+                dp[i][j] = (dp[i - 1][j] + dp[i - 1][j - 1]) % MOD
+
+        diff = k - abs(endPos - startPos)
+        return dp[k][diff // 2] if diff >= 0 and diff % 2 == 0 else 0
