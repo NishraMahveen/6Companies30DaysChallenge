@@ -1,0 +1,43 @@
+class Solution:
+    def maxSumBST(self, root: Optional[TreeNode]) -> int:
+        self.ans = 0
+
+        class Data:
+            def __init__(self):
+                self.currMaxSum = 0
+                self.currBstMin = float('inf')
+                self.currBstMax = float('-inf')
+                self.isBST = True
+
+        def maxSum(node):
+            if node is None:
+                return Data()
+
+            curr_node = Data()
+            node_left = maxSum(node.left)
+            node_right = maxSum(node.right)
+
+            if (
+                node_left.isBST
+                and node_right.isBST
+                and node.val > node_left.currBstMax
+                and node_right.currBstMin > node.val
+            ):
+                curr_node.isBST = True
+                curr_node.currBstMax = max(node.val, node_right.currBstMax)
+                curr_node.currBstMin = min(node.val, node_left.currBstMin)
+                curr_node.currMaxSum = (
+                    node.val + node_left.currMaxSum + node_right.currMaxSum
+                )
+            else:
+                curr_node.isBST = False
+                curr_node.currMaxSum = max(
+                    node_left.currMaxSum, node_right.currMaxSum
+                )
+
+            self.ans = max(self.ans, curr_node.currMaxSum)
+            return curr_node
+
+        maxSum(root)
+        return self.ans
+        
