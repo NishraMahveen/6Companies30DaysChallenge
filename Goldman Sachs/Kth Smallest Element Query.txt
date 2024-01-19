@@ -1,0 +1,16 @@
+class Solution:
+    def smallestTrimmedNumbers(self, nums: List[str], queries: List[List[int]]) -> List[int]:
+        ans = []
+
+        for cur in queries:
+            n = cur[0]
+            len = cur[1]
+            arr = []  
+            
+            for i, num in enumerate(nums):
+                arr.append((num[-len:], i))
+            
+            arr.sort()
+            ans.append(arr[n-1][1])
+
+        return ans
