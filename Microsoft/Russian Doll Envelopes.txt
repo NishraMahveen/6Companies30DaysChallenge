@@ -1,0 +1,39 @@
+class Solution:
+    def comp(a, b):
+        if a[0] == b[0]:
+            return a[1] > b[1]
+        return a[0] < b[0]
+
+    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        envelopes.sort(key=lambda x: (x[0], -x[1]))
+
+        ans = []
+        n = len(envelopes)
+        for i in range(n):
+            _, h = envelopes[i]
+            idx = self.binarySearch(ans, h)
+            
+            if idx == len(ans):
+                ans.append(h)
+            else:
+                ans[idx] = h
+
+        return len(ans)
+
+    def binarySearch(self, nums, target):
+        left, right = 0, len(nums) - 1
+
+        while left <= right:
+            mid = left + (right - left) // 2
+
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+
+        return left
+
+
+        
