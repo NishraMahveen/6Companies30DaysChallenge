@@ -1,0 +1,41 @@
+class Solution:
+    def bfs(self, src, adj, dist):
+        cost = [float('inf')] * 26
+        cost[src] = 0
+
+        s = set()
+        for i in range(26):
+            s.add((cost[i], i))
+
+        while s:
+            current = s.pop()[1]
+
+            for adjacent, weight in adj[current]:
+                if cost[current] + weight < cost[adjacent]:
+                    s.discard((cost[adjacent], adjacent))
+                    cost[adjacent] = cost[current] + weight
+                    s.add((cost[adjacent], adjacent))
+
+        dist[src] = cost
+
+    def minimumCost(self, source: str, target: str, original: List[str], changed: List[str], cost: List[int]) -> int:
+        adj = [[] for _ in range(26)]
+        for i in range(len(cost)):
+            src = ord(original[i]) - ord('a')
+            dest = ord(changed[i]) - ord('a')
+            adj[src].append((dest, cost[i]))
+
+        dist = [[0] * 26 for _ in range(26)]
+        for i in range(26):
+            self.bfs(i, adj, dist)
+
+        ans = 0
+        for i in range(len(source)):
+            src = ord(source[i]) - ord('a')
+            dest = ord(target[i]) - ord('a')
+
+            if dist[src][dest] == float('inf'):
+                return -1
+            ans += dist[src][dest]
+
+        return ans
