@@ -1,0 +1,15 @@
+class Solution:
+    def numberOfSubarrays(self, nums: List[int], k: int) -> int:
+        for i in range(len(nums)):
+            nums[i] = nums[i] % 2
+
+        m = {0: 1}
+        curr_sum, ans = 0, 0
+
+        for num in nums:
+            curr_sum += num
+            if curr_sum - k in m:
+                ans += m[curr_sum - k]
+            m[curr_sum] = m.get(curr_sum, 0) + 1
+
+        return ans
