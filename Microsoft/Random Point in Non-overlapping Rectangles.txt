@@ -1,0 +1,37 @@
+class Solution:
+
+    def __init__(self, rects: List[List[int]]):
+        self.rects = rects
+        self.areas = []
+        total_area = 0
+
+        for rect in rects:
+            area = (rect[2] - rect[0] + 1) * (rect[3] - rect[1] + 1)
+            total_area += area
+            self.areas.append(total_area)
+        
+    def pick(self) -> List[int]:
+        rand_num = random.randint(0, self.areas[-1] - 1)
+        selected_rect = self.find_rect(rand_num)
+
+        x = random.randint(selected_rect[0], selected_rect[2])
+        y = random.randint(selected_rect[1], selected_rect[3])
+
+        return [x, y]
+
+    def find_rect(self, target):
+        low, high = 0, len(self.areas) - 1
+
+        while low < high:
+            mid = (low + high) // 2
+
+            if self.areas[mid] > target:
+                high = mid
+            else:
+                low = mid + 1
+
+        return self.rects[low]
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(rects)
+# param_1 = obj.pick()
