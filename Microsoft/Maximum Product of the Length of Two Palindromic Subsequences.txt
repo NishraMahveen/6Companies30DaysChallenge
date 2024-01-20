@@ -1,0 +1,36 @@
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        low, high = 0, len(s) - 1
+        while low < high:
+            if s[low] != s[high]:
+                return False
+            low += 1
+            high -= 1
+        return True
+
+    def solve(self, index, s, s1, s2, ans):
+        if index == len(s):
+            if self.isPalindrome(s1) and self.isPalindrome(s2):
+                current_length = len(s1) * len(s2)
+                ans[0] = max(ans[0], current_length)
+            return
+
+        s1 += s[index]
+        self.solve(index + 1, s, s1, s2, ans)
+        s1 = s1[:-1]
+
+        s2 += s[index]
+        self.solve(index + 1, s, s1, s2, ans)
+        s2 = s2[:-1]
+
+        self.solve(index + 1, s, s1, s2, ans)
+
+    def maxProduct(self, s: str) -> int:
+        if not s:
+            return 0
+
+        ans = [0]
+        s1, s2 = "", ""
+        self.solve(0, s, s1, s2, ans)
+
+        return ans[0]
