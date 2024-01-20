@@ -1,0 +1,36 @@
+class Solution:
+    def shoppingOffers(self, price: List[int], special: List[List[int]], needs: List[int]) -> int:
+        dp = defaultdict(int)
+
+        def encode(state: Tuple[int]) -> Tuple[int]:
+            return tuple(state)
+
+        def decode(encoded_state: Tuple[int]) -> List[int]:
+            return list(encoded_state)
+
+        def update_state(state: Tuple[int], offer: List[int]) -> List[int]:
+            return [s - o for s, o in zip(state, offer[:-1])]
+
+        def cost(state: Tuple[int]) -> int:
+            return sum(s * p for s, p in zip(state, price))
+
+        def solve(current_state: Tuple[int]) -> int:
+            if sum(current_state) == 0:
+                return 0
+
+            if current_state in dp:
+                return dp[current_state]
+
+            result = cost(decode(current_state))
+
+            for offer in special:
+                new_state = update_state(decode(current_state), offer)
+                if all(s >= 0 for s in new_state):
+                    result = min(result, offer[-1] + solve(encode(new_state)))
+
+            dp[current_state] = result
+            return result
+
+        initial_state = tuple(needs)
+        return solve(initial_state)
+
