@@ -1,0 +1,29 @@
+class Solution:
+    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+        nums.sort()
+
+        n = len(nums)
+        dp = [1] * n
+        hash_list = [i for i in range(n)]
+        maxi = 1
+        last_index = 0
+
+        for i in range(n):
+            hash_list[i] = i
+            for prev in range(i):
+                if nums[i] % nums[prev] == 0 and dp[prev] + 1 > dp[i]:
+                    dp[i] = dp[prev] + 1
+                    hash_list[i] = prev
+
+            if dp[i] > maxi:
+                maxi = dp[i]
+                last_index = i
+
+        ans = []
+        ans.append(nums[last_index])
+        while hash_list[last_index] != last_index:
+            last_index = hash_list[last_index]
+            ans.append(nums[last_index])
+
+        return ans
+        
