@@ -1,0 +1,19 @@
+class Solution:
+    def findLongestWord(self, s: str, dictionary: List[str]) -> str:
+        def is_subseq(word, target):
+            i, j = 0, 0
+            while i < len(word) and j < len(target):
+                if word[i] == target[j]:
+                    i += 1
+                j += 1
+            return i == len(word)
+
+        long_word = ""
+
+        for word in dictionary:
+            if is_subseq(word, s):
+                if len(word) > len(long_word) or (len(word) == len(long_word) and word < long_word):
+                    long_word = word
+
+        return long_word
+        
