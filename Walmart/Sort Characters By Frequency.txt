@@ -1,0 +1,16 @@
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        freq = Counter(s)
+        #counter is used to count the occurences of elements in the list or string and stores it in the form of dictionary where the key will be the element and the value will be the number of times the element occured.
+
+        sort_chars=sorted(freq.keys(), key = lambda x: freq[x], reverse=True)
+
+        #here, freq.keys will have all the keys from freq,  the lambda function takes a key 'x' which is a character and will return the corresponding value from freq[x], on specifying reverse as true sorting will be done in descending order.
+
+        sorted_string = ''.join(char * freq[char] for char in sort_chars)
+
+        #This line is creating a new string sorted_string by joining together characters from the sorted list sort_chars. Each character is repeated a number of times equal to its frequency in the original string.
+        
+        return sorted_string
+        
+        #it returns the sorted string.
