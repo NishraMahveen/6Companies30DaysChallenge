@@ -1,0 +1,19 @@
+class Solution:
+    def numFriendRequests(self, ages: List[int]) -> int:
+        # Count the occurrences of each age in the given list
+        age_count = Counter(ages)
+
+        # Initialize the total number of friend requests
+        totReq = sum(
+            # Check conditions for sending a friend request
+            (not self.ShldSkipReq(age1, age2)) * age_count[age1] * (age_count[age2] - (age1 == age2))
+            for age1 in age_count
+            for age2 in age_count
+        )
+
+        return totReq
+
+    # Check conditions for skipping a friend request
+    def ShldSkipReq(self, age1, age2):
+        return age2 <= 0.5 * age1 + 7 or age2 > age1 or (age2 > 100 and age1 < 100)
+
