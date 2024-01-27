@@ -1,0 +1,28 @@
+class Solution:
+    def minNonZeroProduct(self, p: int) -> int:
+        mod = 10**9 + 7
+
+        def solve(k, n):
+            if n == 0:
+                return 1
+
+            if n == 1:
+                return k
+
+            ans = solve(k, n // 2)
+            ans = (ans * ans) % mod
+
+            if n % 2:
+                ans = (ans * k) % mod
+
+            return ans
+
+        b = pow(2, p)
+        k = b - 2
+
+        ans = solve(k, (k + 1) // 2) % mod
+        ans = (ans * (b - 1)) % mod
+
+        return ans
+
+        
