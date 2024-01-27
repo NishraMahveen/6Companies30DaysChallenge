@@ -1,0 +1,18 @@
+class Solution:
+    def maxRotateFunction(self, nums: List[int]) -> int:
+        sumVal = 0
+        val = 0
+        
+        # Calculate the initial sum and val
+        for i in range(len(nums)):
+            sumVal += nums[i]
+            val += i * nums[i]
+
+        totSum = val
+        
+        # Rotate the array and update val, then calculate the maximum total sum
+        for i in range(len(nums)-1, 0, -1):
+            val = val + sumVal - len(nums) * nums[i]
+            totSum = max(val, totSum)
+
+        return totSum
