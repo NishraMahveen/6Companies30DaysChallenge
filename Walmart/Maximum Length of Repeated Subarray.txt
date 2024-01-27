@@ -1,0 +1,22 @@
+class Solution:
+    def findLength(self, nums1: List[int], nums2: List[int]) -> int:
+        m, n = len(nums1), len(nums2)
+        
+        # Initialize a 2D array dp with dimensions (m+1) x (n+1) filled with zeros.
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        
+        # Variable to store the maximum length of common subarray.
+        max_length = 0
+
+        # Iterate through nums1 and nums2 in reverse order.
+        for i in range(m - 1, -1, -1):
+            for j in range(n - 1, -1, -1):
+                # Check if the elements at the current positions are equal.
+                if nums1[i] == nums2[j]:
+                    # If equal, update dp[i][j] to be dp[i+1][j+1] + 1.
+                    dp[i][j] = dp[i + 1][j + 1] + 1
+                    # Update max_length with the maximum value encountered so far.
+                    max_length = max(max_length, dp[i][j])
+
+        # Return the maximum length of common subarray.
+        return max_length
