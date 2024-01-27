@@ -1,0 +1,19 @@
+class Solution:
+    def countBattleships(self, board: List[List[str]]) -> int:
+        def dfs(r, c):
+            # Check if the current cell is within bounds and is part of a battleship
+            if 0 <= r < m and 0 <= c < n and board[r][c] == 'X':
+                board[r][c] = '.'  # Mark the cell as visited
+                dfs(r + 1, c)  # Explore down
+                dfs(r, c + 1)  # Explore right
+
+        m, n = len(board), len(board[0])
+        count = 0
+
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == 'X':
+                    count += 1  # Increment the count for each battleship found
+                    dfs(i, j)   # Explore and mark all connected battleship cells
+
+        return count
