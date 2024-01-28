@@ -1,0 +1,19 @@
+class Solution:
+    def minimumLengthEncoding(self, words: List[str]) -> int:
+        # Convert the list of words to a set
+        s = set(words)
+
+        # Set to store suffixes to be discarded
+        to_discard = set()
+
+        for word in s:
+            for i in range(1, len(word)):
+                # Add suffixes to the set to be discarded
+                to_discard.add(word[i:])
+
+        # Remove the suffixes from the original set
+        s -= to_discard
+
+        ans = sum(len(word) + 1 for word in s)  # Calculate the minimum length encoding
+        return ans
+        
