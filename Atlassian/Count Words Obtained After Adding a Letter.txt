@@ -1,0 +1,30 @@
+class Solution:
+    def wordCount(self, sw: List[str], tw: List[str]) -> int:
+        s = set()
+        count = 0
+        
+        # Process words in startWords
+        for word in sw:
+            temp = ''.join(sorted(word))
+            s.add(temp)
+
+        # Process words in targetWords
+        for word in tw:
+            temp = ''.join(sorted(word))
+            check = False
+
+            # Check for an anagram(a word that is formed by rearranging the letters of another word, using all the original letters exactly once) by removing each character one by one
+            for j in range(len(temp)):
+                str_without_char = temp[:j] + temp[j+1:]
+                
+                # If the modified string is in the set, it's an anagram
+                if str_without_char in s:
+                    check = True
+                    break
+
+            # If an anagram is found, increment the count
+            if check:
+                count += 1
+
+        return count
+
