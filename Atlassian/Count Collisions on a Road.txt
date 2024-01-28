@@ -1,0 +1,13 @@
+class Solution:
+    def countCollisions(self, directions: str) -> int:
+        result = count = 0
+        smooth = 1
+
+        for x in directions:
+            if x == 'R':
+                count += 1
+            elif x == 'S' or (count or not smooth):
+                result += count + int(x == 'L')
+                count = smooth = 0
+
+        return result
