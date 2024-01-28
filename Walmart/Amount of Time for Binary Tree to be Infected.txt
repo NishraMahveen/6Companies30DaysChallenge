@@ -1,0 +1,68 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
+        # Initialize a defaultdict to store the adjacency lists of each node
+        map = defaultdict(set)
+        
+        # Populate the adjacency lists using a recursive conversion function
+        self.convert(root, 0, map)
+        
+        # Initialize a queue for BFS starting from the given 'start' node
+        q = deque([start])
+        minute = 0
+        # Keep track of visited nodes to avoid revisiting them
+        visited = set([start])
+
+        # BFS traversal
+        while q:
+            level_size = len(q)
+            while level_size > 0:
+                # Pop the front of the queue
+                curr = q.popleft()
+
+                # Explore neighbors of the current node
+                for num in map[curr]:
+                    if num not in visited:
+                        # Mark as visited and add to the queue for the next level
+                        visited.add(num)
+                        q.append(num)
+
+                level_size -= 1
+
+            minute += 1
+
+        # The result is the number of minutes spent in the traversal minus 1
+        return minute - 1
+
+    def convert(self, curr, parent, map):
+        # Base case: If the current node is None, return
+        if not curr:
+            return
+        
+        # If the current node's value is not in the map, add an empty set
+        if curr.val not in map:
+            map[curr.val] = set()
+
+        # Get the adjacency list for the current node's value
+        adjacent_list = map[curr.val]
+        
+        # If there is a parent (excluding the root), add it to the adjacency list
+        if parent != 0:
+            adjacent_list.add(parent)
+
+        # Add left and right children to the adjacency list
+        if curr.left:
+            adjacent_list.add(curr.left.val)
+
+        if curr.right:
+            adjacent_list.add(curr.right.val)
+
+        # Recursively convert the left and right subtrees
+        self.convert(curr.left, curr.val, map)
+        self.convert(curr.right, curr.val, map)
