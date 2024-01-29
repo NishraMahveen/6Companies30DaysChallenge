@@ -1,0 +1,38 @@
+class Solution:
+    def specialPerm(self, nums: List[int]) -> int:
+        mod = 10**9 + 7
+
+        # Recursive function with memoization
+        def rec(cnt, last_index, used_mask):
+            # Base case: permutation is complete
+            if cnt == self.n:
+                return 1
+            # Check if the result for the current state is already memoized
+            if (used_mask, last_index) in self.dp:
+                return self.dp[(used_mask, last_index)]
+
+            # Initialize result
+            total_permutations = 0
+
+            # Iterate over indices to find the next valid element in the permutation
+            for current_index in range(self.n):
+                # Check conditions for selecting the next element
+                if last_index == -1 or (
+                    (used_mask & (1 << current_index)) == 0 and
+                    last_index != current_index and
+                    (nums[last_index] % nums[current_index] == 0 or nums[current_index] % nums[last_index] == 0)
+                ):
+                    # Recursively explore the next state
+                    total_permutations += rec(cnt + 1, current_index, used_mask | (1 << current_index)) % mod
+
+            # Memoize the result and return
+            self.dp[(used_mask, last_index)] = total_permutations % mod
+            return self.dp[(used_mask, last_index)]
+
+        # Initialize attributes
+        self.n = len(nums)
+        self.dp = {}
+
+        # Start the recursive process
+        return rec(0, -1, 0)
+
