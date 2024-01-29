@@ -1,0 +1,32 @@
+class Solution:
+    def __init__(self):
+        self.dp = [[-1] * 402 for _ in range(402)]
+
+    def f(self, s, i, prev, a1, b1, a2, b2):
+        if i == len(s):
+            if prev == -1:
+                return abs(a2 - a1) + abs(b2 - b1)
+            return abs(a2 - s[prev][2]) + abs(b2 - s[prev][3]) + s[prev][4]
+
+        if self.dp[i][prev + 1] != -1:
+            return self.dp[i][prev + 1]
+
+        nt = self.f(s, i + 1, prev, a1, b1, a2, b2)
+        t = 0
+
+        if prev == -1:
+            t = abs(a1 - s[i][0]) + abs(b1 - s[i][1]) + self.f(s, i + 1, i, a1, b1, a2, b2)
+        else:
+            t = abs(s[prev][2] - s[i][0]) + abs(s[prev][3] - s[i][1]) + s[prev][4] + self.f(s, i + 1, i, a1, b1, a2, b2)
+
+        self.dp[i][prev + 1] = min(nt, t)
+        return self.dp[i][prev + 1]
+
+    def minimumCost(self, s1, t, s):
+        v = s + [row[:] for row in s]  # Make a copy of s
+        self.dp = [[-1] * 402 for _ in range(402)]
+        return self.f(v, 0, -1, s1[0], s1[1], t[0], t[1])
+
+
+
+        
