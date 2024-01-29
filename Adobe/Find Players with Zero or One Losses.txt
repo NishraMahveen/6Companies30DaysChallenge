@@ -1,0 +1,27 @@
+class Solution:
+    def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
+        mp = {}
+        loser = []
+        winner = []
+
+        # Count the number of matches lost by each player
+        for match in matches:
+            mp[match[1]] = mp.get(match[1], 0) + 1
+
+        # Separate players into winners and losers
+        for match in matches:
+            l = match[1]
+            w = match[0]
+
+            if w not in mp:
+                winner.append(w)
+                mp[w] = 4  # Assuming a placeholder value for winners
+            if mp[l] == 1:
+                loser.append(l)
+
+        # Sort the results
+        loser.sort()
+        winner.sort()
+
+        return [winner, loser]
+
