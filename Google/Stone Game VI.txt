@@ -1,0 +1,38 @@
+class Solution:
+    def stoneGameVI(self, aliceValues: List[int], bobValues: List[int]) -> int:
+        N = len(aliceValues)
+        B = sum(bobValues)
+        counts = [0] * 203
+
+        # Count occurrences of the sum of corresponding elements in aliceValues and bobValues
+        for i in range(N):
+            counts[aliceValues[i] + bobValues[i]] += 1
+
+        # Remove trailing zeros in the counts list
+        while counts[-1] == 0:
+            counts.pop()
+
+        alice = -B
+        player = 0
+
+        # Iterate over counts in reverse order
+        for v in range(len(counts) - 1, -1, -1):
+            c = counts[v]
+
+            # c//2 pairs of turns, Alice and Bob both get one copy of v for each pair
+            alice += v * (c // 2)
+
+            # If c is odd and it's Alice's turn, give her an additional copy
+            if c % 2 and player == 0:
+                alice += v
+
+            # Update the first player for the next bucket
+            player = (player + c) % 2
+
+        # Determine the result based on the value of 'alice'
+        if alice > 0:
+            return 1
+        elif alice < 0:
+            return -1
+        else:
+            return 0
