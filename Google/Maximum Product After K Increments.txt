@@ -1,0 +1,23 @@
+class Solution:
+    def maximumProduct(self, nums: List[int], k: int) -> int:
+        mod = 1_000_000_007
+        nums.sort()
+
+        for curr_idx, curr_ele in enumerate(nums): 
+            next_ele = nums[curr_idx + 1] if curr_idx + 1 < len(nums) else inf
+            increment_count = (next_ele - curr_ele) * (curr_idx + 1)
+
+            if increment_count <= k:
+                k -= increment_count 
+            else:
+                break 
+
+        quot, rem = divmod(k, curr_idx + 1)
+        p1 = pow(curr_ele + quot + 1, rem, mod)
+        p2 = pow(curr_ele + quot, curr_idx + 1 - rem, mod)
+        res = (p1 * p2) % mod
+
+        for rem_idx in range(curr_idx + 1, len(nums)): 
+            res = (res * nums[rem_idx]) % mod
+
+        return res
