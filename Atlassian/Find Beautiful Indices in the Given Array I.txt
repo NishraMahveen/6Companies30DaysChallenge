@@ -1,0 +1,27 @@
+class Solution:
+    def beautifulIndices(self, s: str, a: str, b: str, k: int) -> List[int]:
+        result = []
+
+        sl, al, bl = len(s), len(a), len(b)
+
+        # Lists to store starting indices of substrings a and b
+        a_index, b_index = [], []
+
+        for i in range(sl):
+            # Find starting indices of substring a in s
+            if s[i] == a[0] and s[i:i + al] == a:
+                a_index.append(i)
+            # Find starting indices of substring b in s
+            if s[i] == b[0] and s[i:i + bl] == b:
+                b_index.append(i)
+
+        # Check beautiful conditions for pairs of indices (i, j)
+        for i in a_index:
+            for j in b_index:
+                # Check if the absolute difference between i and j is within k
+                if abs(i - j) <= k:
+                    # If true, add i to the result and break from the inner loop
+                    result.append(i)
+                    break
+
+        return result
