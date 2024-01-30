@@ -1,0 +1,29 @@
+class Solution:
+    def maxNumberOfFamilies(self, n: int, reservedSeats: List[List[int]]) -> int:
+        m = defaultdict(lambda: [1] * 11)
+        rsv = reservedSeats
+
+        # Step 1: Create a mapping of reserved seats for each row
+        for row, seat in rsv:
+            if row not in m:
+                m[row] = [1] * 11
+            m[row][seat] = 0
+
+        ans = 0
+
+        # Step 2: Count available four-person groups
+        for rn, row in m.items():
+            c1 = all(row[i] for i in range(2, 6))
+            c2 = all(row[i] for i in range(4, 8))
+            c3 = all(row[i] for i in range(6, 10))
+
+            if c1 or c3:
+                ans += c1
+                ans += c3
+            else:
+                ans += c2
+
+        # Step 3: Add remaining two-person groups for rows with no reserved seats
+        return ans + (n - len(m)) * 2
+
+
