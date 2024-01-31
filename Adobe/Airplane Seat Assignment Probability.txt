@@ -1,0 +1,7 @@
+class Solution:
+    def nthPersonGetsNthSeat(self, n: int) -> float:
+        res = 1
+        if n <= 2:
+            return res/n
+        else:
+            return res/2
